@@ -7,12 +7,7 @@ namespace App\Repository;
 use App\DTO\CreerSalleDTO;
 use App\Model\Salle;
 
-/**
- * Étape 7 — Implémentation Eloquent du repository des salles.
- *
- * Toute requête ORM (Salle::query(), ->save(), …) est isolée ici. Les
- * contrôleurs n'y ont jamais accès directement.
- */
+
 final class EloquentSalleRepository implements SalleRepositoryInterface
 {
     public function lister(): array

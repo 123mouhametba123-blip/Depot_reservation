@@ -4,16 +4,16 @@ services:
     container_name: reservation_db
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
-      MYSQL_DATABASE: ${DB_DATABASE:-reservation_salles}
-      MYSQL_USER: ${DB_USERNAME:-reservation_user}
-      MYSQL_PASSWORD: ${DB_PASSWORD:-reservation_pass}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-reservation_root}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-reservation_salles}
+      MYSQL_USER: ${MYSQL_USER:-reservation_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-reservation_pass}
     ports:
       - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-root}"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-reservation_root}"]
       interval: 5s
       timeout: 5s
       retries: 20
@@ -32,9 +32,9 @@ services:
       DB_DRIVER: mysql
       DB_HOST: db
       DB_PORT: "3306"
-      DB_DATABASE: ${DB_DATABASE:-reservation_salles}
-      DB_USERNAME: ${DB_USERNAME:-reservation_user}
-      DB_PASSWORD: ${DB_PASSWORD:-reservation_pass}
+      DB_DATABASE: ${MYSQL_DATABASE:-reservation_salles}
+      DB_USERNAME: ${MYSQL_USER:-reservation_user}
+      DB_PASSWORD: ${MYSQL_PASSWORD:-reservation_pass}
     ports:
       - "8080:80"
 

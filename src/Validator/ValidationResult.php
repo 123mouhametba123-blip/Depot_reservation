@@ -4,14 +4,7 @@ declare(strict_types=1);
 
 namespace App\Validator;
 
-/**
- * Étape 5 — Résultat d'une validation.
- *
- * Porte un objet immuable qui contient :
- *  - la validité globale ;
- *  - les erreurs associées à chaque champ ;
- *  - les données acceptées (valides), prêtes à être transmises à un DTO.
- */
+
 final class ValidationResult
 {
     /**

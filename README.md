@@ -53,8 +53,8 @@ Une réservation annulée ne bloque plus la salle.
 - PHP **8.2 ou 8.3** avec les extensions `pdo_mysql`, `mbstring` ;
 - Composer 2 ;
 - MySQL 5.7 / 8.0 (ou MariaDB) ;
-- **ou** Docker (image `php:8.3-fpm` + serveur **Nginx** + `mysql:8.0`) pour
-  un démarrage sans installation locale.
+- **ou** Docker (image `php:8.3-cli` avec le serveur intégré PHP + `mysql:8.0`)
+  pour un démarrage sans installation locale.
 
 ## Installation sans Docker
 
@@ -95,8 +95,8 @@ non utilisé : la base MySQL est exposée sur le port hôte **3307** (3306 peut 
 occupé par un MySQL local).
 
 L'entrypoint attend que MySQL soit sain, applique les migrations et insère les
-données initiales avant de démarrer **PHP-FPM et Nginx** — aucun `docker exec`
-nécessaire.
+données initiales avant de démarrer le **serveur PHP intégré** (`php -S`) — aucun
+`docker exec` nécessaire.
 
 ```bash
 docker compose ps         # état des conteneurs
@@ -138,9 +138,8 @@ Reservation_mouhamed/
 │   ├── migrer.php             # exécuteur de migrations
 │   └── seed.php               # données initiales (5 salles)
 ├── docker/
-│   ├── nginx-default.conf    # vhost Nginx (public/ + PHP-FPM)
 │   ├── attend_db.php         # attente de la disponibilité de MySQL
-│   └── entrypoint.sh         # migrations + seed + PHP-FPM + Nginx
+│   └── entrypoint.sh         # migrations + seed + serveur PHP intégré
 ├── public/
 │   ├── assets/style.css
 │   └── index.php              # UNIQUE point d'entrée
@@ -178,5 +177,4 @@ Reservation_mouhamed/
 ```
 
 > Justifications détaillées des choix (MVC, Repository, Service, injection,
-> SOLID…) : voir **[ARCHITECTURE.md](ARCHITECTURE.md)** et le
-> **[diagramme de classes](docs/class-diagram.md)**.
+> SOLID…) : voir **[ARCHITECTURE.md](ARCHITECTURE.md)**.

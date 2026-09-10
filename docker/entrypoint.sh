@@ -13,5 +13,5 @@ php database/migrer.php
 echo "Insertion des données initiales..."
 php database/seed.php
 
-echo "Initialisation terminée : démarrage de PHP-FPM et Nginx."
+echo "Initialisation terminée : démarrage du serveur PHP intégré."
 exec "$@"

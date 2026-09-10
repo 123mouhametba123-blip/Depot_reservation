@@ -13,7 +13,7 @@ Le numéro de version suit le [SemVer](https://semver.org/lang/fr/) et chaque
 - Messages de succès et d'erreur par champ + conservation des valeurs valides.
 - Gestion propre des erreurs (404, 405 avec en-tête `Allow`, erreurs métier).
 - Documentation complète : README, CHANGELOG, ARCHITECTURE, diagramme de classes.
-- Docker : `Dockerfile` (Nginx + PHP-FPM), `docker-compose.yml`,
+- Docker : `Dockerfile` (PHP CLI + serveur intégré), `docker-compose.yml`,
   entrypoint (attente MySQL, migrations, seed).
 
 ## [v0.12.0] — Tests (branche `feature/12-tests`)

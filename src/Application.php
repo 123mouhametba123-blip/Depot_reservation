@@ -8,20 +8,7 @@ use App\View\View;
 use FastRoute\Dispatcher;
 use Psr\Container\ContainerInterface;
 
-/**
- * MVC + Front Controller + Router — Orchestrateur principal.
- *
- * Point d'entrée unique de l'application puisqu'il est instancié et démarré
- * par public/index.php. Il :
- *   1. lit la requête HTTP ;
- *   2. retire la query string ;
- *   3. demande à FastRoute de la router ;
- *   4. traite les résultats (FOUND / NOT_FOUND / METHOD_NOT_ALLOWED).
- *
- * C'est ici (et dans index.php) que le conteneur est utilisé pour résoudre
- * les contrôleurs désignés par les routes — cas autorisé car c'est le point
- * d'entrée, et non une classe métier qui chercherait ses propres dépendances.
- */
+
 final class Application
 {
     public function __construct(

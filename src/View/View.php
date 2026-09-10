@@ -4,13 +4,7 @@ declare(strict_types=1);
 
 namespace App\View;
 
-/**
- * MVC — Vue. Rend un template PHP dans une chaîne HTML, puis l'enchâsse
- * éventuellement dans le gabarit général (layout).
- *
- * Les vues ne contiennent aucune règle métier et n'appellent ni Eloquent
- * ni le conteneur : elles reçoivent uniquement des données prêtes à afficher.
- */
+
 final class View
 {
     public function __construct(

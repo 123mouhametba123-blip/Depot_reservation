@@ -4,7 +4,7 @@ Ce document identifie et justifie chaque notion technique mise en œuvre dans
 le projet. Pour chacune : **classes concernées**, **rôle**, **avantage**,
 **limite ou risque** et **extrait représentatif**.
 
-Le diagramme de classes est disponible dans [`docs/class-diagram.md`](docs/class-diagram.md).
+Le diagramme de classes est disponible directement dans les modèles (`src/Model/`).
 
 ---
 

@@ -7,11 +7,7 @@ namespace App\Service;
 use App\Exception\ReservationIntrouvableException;
 use App\Repository\ReservationRepositoryInterface;
 
-/**
- * Étape 8 — Service : annulation d'une réservation.
- *
- * Une réservation annulée ne bloque plus la salle.
- */
+
 final class AnnulerReservationService
 {
     public function __construct(

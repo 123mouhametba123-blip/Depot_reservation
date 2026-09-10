@@ -7,13 +7,7 @@ namespace App\Repository;
 use App\DTO\CreerSalleDTO;
 use App\Model\Salle;
 
-/**
- * Étape 7 — Contrat d'accès aux données des salles.
- *
- * Les contrôleurs ne dépendent que de cette interface, jamais de
- * l'implémentation Eloquent. Aucune requête ORM ne doit transparaître
- * dans la couche contrôleur.
- */
+
 interface SalleRepositoryInterface
 {
     /** @return list<Salle> */

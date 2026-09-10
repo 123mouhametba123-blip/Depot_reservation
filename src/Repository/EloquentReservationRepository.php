@@ -8,9 +8,7 @@ use App\DTO\CreerReservationDTO;
 use App\Model\Reservation;
 use DateTimeImmutable;
 
-/**
- * Étape 7 — Implémentation Eloquent du repository des réservations.
- */
+
 final class EloquentReservationRepository implements ReservationRepositoryInterface
 {
     public function lister(): array
