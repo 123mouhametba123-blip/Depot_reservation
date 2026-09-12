@@ -14,17 +14,7 @@ use App\Service\CreerReservationService;
 use App\Validator\ReservationValidator;
 use App\View\View;
 
-/**
- * Étape 9 — Contrôleur des réservations.
- *
- * Responsabilités de store() :
- *  1. lire les données HTTP ;
- *  2. appeler le validateur ;
- *  3. réafficher le formulaire en cas d'erreur ;
- *  4. construire le DTO ;
- *  5. appeler le service ;
- *  6. rediriger après succès.
- */
+
 final class ReservationController
 {
     public function __construct(
@@ -70,11 +60,12 @@ final class ReservationController
     public function create(): string
     {
         return $this->vue->rendu('reservation/form.php', [
-            'titre'     => 'Créer une réservation',
-            'salles'    => $this->salles->lister(),
-            'erreurs'   => $this->flash('erreurs', []),
-            'anciennes' => $this->flash('anciennes', []),
-            'message'   => $this->flash('message', ''),
+            'titre'       => 'Créer une réservation',
+            'reservation' => null,
+            'action'      => '/reservations',
+            'salles'      => $this->salles->lister(),
+            'erreurs'     => $this->flash('erreurs', []),
+            'anciennes'   => $this->flash('anciennes', []),
         ]);
     }
 

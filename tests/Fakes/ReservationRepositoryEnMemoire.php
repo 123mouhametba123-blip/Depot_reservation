@@ -85,6 +85,11 @@ final class ReservationRepositoryEnMemoire implements ReservationRepositoryInter
         return $reservation;
     }
 
+    public function compter(): int
+    {
+        return count($this->reservations);
+    }
+
     /** Aide de test : injecte une réservation existante préconfigurée. */
     public function injecter(int $id, Reservation $reservation): void
     {

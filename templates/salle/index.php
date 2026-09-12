@@ -1,41 +1,37 @@
-<?php /** @var list<\App\Model\Salle> $salles */ ?>
-<h1>Liste des salles</h1>
-<p><a class="bouton" href="/salles/create">+ Ajouter une salle</a></p>
+<?php
 
-<?php if ($salles === []): ?>
+/**
+ * Liste des salles.
+ *
+ * @var list<\App\Model\Salle> $salles
+ */
+$types = [
+    'cours'        => ['🎓', 'Cours'],
+    'informatique' => ['💻', 'Informatique'],
+    'laboratoire'  => ['🧪', 'Laboratoire'],
+    'amphitheatre' => ['🎭', 'Amphithéâtre'],
+    'reunion'      => ['🤝', 'Réunion'],
+];
+?>
+<div class="actions">
+    <h1>Liste des salles</h1>
+    <a class="bouton" href="/salles/create">+ Ajouter une salle</a>
+</div>
+
+<?php if ($salles === []) : ?>
     <p class="vide">Aucune salle enregistrée pour le moment.</p>
-<?php else: ?>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Nom</th>
-            <th>Bâtiment</th>
-            <th>Capacité</th>
-            <th>Type</th>
-            <th>État</th>
-            <th class="aligner">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($salles as $salle): ?>
-            <tr>
-                <td><a href="/salles/<?= $salle->id ?>"><?= $e($salle->nom) ?></a></td>
-                <td><?= $e($salle->batiment) ?></td>
-                <td><?= $e($salle->capacite) ?> places</td>
-                <td><?= $e($salle->type) ?></td>
-                <td>
-                    <?php if ($salle->active): ?>
-                        <span class="pastille actif">active</span>
-                    <?php else: ?>
-                        <span class="pastille inactif">inactive</span>
-                    <?php endif; ?>
-                </td>
-                <td class="aligner">
-                    <a href="/salles/<?= $salle->id ?>">Détail</a>
-                    <a href="/salles/<?= $salle->id ?>/edit">Modifier</a>
-                </td>
-            </tr>
+<?php else : ?>
+    <div class="tableau-bord">
+        <?php foreach ($salles as $salle) : ?>
+            <a class="carte salle<?= $salle->active ? '' : ' pas-active' ?>" href="/salles/<?= $salle->id ?>">
+                <?php [$icone, $libelle] = $types[$salle->type] ?? ['🏫', 'Autre']; ?>
+                <strong><?= $icone ?> <?= htmlspecialchars($salle->nom) ?></strong>
+                <span class="salle-meta">
+                    <span><?= htmlspecialchars($salle->batiment) ?></span>
+                    <span><?= $salle->capacite ?> places</span>
+                </span>
+                <span class="pastille <?= $salle->active ? 'actif' : 'inactif' ?>"><?= $salle->active ? '● active' : '● inactive' ?></span>
+            </a>
         <?php endforeach; ?>
-        </tbody>
-    </table>
+    </div>
 <?php endif; ?>

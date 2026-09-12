@@ -1,17 +1,18 @@
-<?php http_response_code(404); ?>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 — Page introuvable</title>
-    <link rel="stylesheet" href="/assets/style.css">
-</head>
-<body>
-<main class="conteneur erreur-page">
-    <h1 class="gros">404</h1>
-    <p>Oups ! La page demandée est introuvable.</p>
+<?php
+
+/**
+ * Page d'erreur 404.
+ *
+ * @var string $contenu
+ */
+$contenu = <<<'HTML'
+<div class="erreur-page">
+    <p class="gros">404</p>
+    <h1>Page introuvable</h1>
+    <p>La page que vous cherchez n'existe pas ou a été déplacée.</p>
     <a class="bouton" href="/">Retour à l'accueil</a>
-</main>
-</body>
-</html>
+</div>
+HTML;
+
+$titre = 'Page introuvable';
+require __DIR__ . '/../layout/base.php';

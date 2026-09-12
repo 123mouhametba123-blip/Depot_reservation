@@ -39,4 +39,9 @@ final class EloquentSalleRepository implements SalleRepositoryInterface
 
         return $salle;
     }
+
+    public function compter(): int
+    {
+        return Salle::query()->count();
+    }
 }

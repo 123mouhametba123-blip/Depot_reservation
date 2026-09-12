@@ -1,78 +1,81 @@
 <?php
-/** @var \App\Model\Salle|null $salle */
-/** @var string $action */
-/** @var array<string, list<string>> $erreurs */
-/** @var array<string, mixed> $anciennes */
 
-$valeur = static function (string $champ, mixed $defaut) use ($salle, $anciennes): mixed {
-    if (array_key_exists($champ, $anciennes)) {
-        return $anciennes[$champ];
+/**
+ * Formulaire d'une salle.
+ *
+ * @var \App\Model\Salle|null $salle
+ * @var string $action
+ * @var array<string, mixed> $erreurs
+ * @var array<string, mixed> $anciennes
+ */
+$listeTypes = [
+    'cours'        => ['🎓', 'Cours'],
+    'informatique' => ['💻', 'Informatique'],
+    'laboratoire'  => ['🧪', 'Laboratoire'],
+    'amphitheatre' => ['🎭', 'Amphithéâtre'],
+    'reunion'      => ['🤝', 'Réunion'],
+];
+
+$valeur = static function (string $clef) use ($salle, $anciennes) {
+    if (array_key_exists($clef, $anciennes)) {
+        return is_array($anciennes[$clef])
+            ? implode(', ', $anciennes[$clef])
+            : (string) $anciennes[$clef];
     }
-    if ($salle !== null) {
-        return $salle->$champ;
-    }
-    return $defaut;
+    return (string) ($salle->{$clef} ?? '');
 };
-
-$listeTypes = \App\Model\Salle::TYPES_AUTORISES;
-$typeActif = (string) $valeur('type', '');
 ?>
-<h1><?= $salle === null ? 'Ajouter une salle' : 'Modifier la salle' ?></h1>
+<div class="actions">
+    <h1><?= $salle === null ? 'Ajouter une salle' : 'Modifier la salle' ?></h1>
+</div>
 
-<form method="post" action="<?= $e($action) ?>" class="formulaire">
-    <div class="champ">
-        <label for="nom">Nom</label>
-        <input type="text" id="nom" name="nom" value="<?= $e($valeur('nom', '')) ?>" required>
-        <?php foreach ($erreurs['nom'] ?? [] as $erreur): ?>
-            <span class="erreur-champ"><?= $e($erreur) ?></span>
-        <?php endforeach; ?>
+<form class="formulaire" method="post" action="<?= $action ?>">
+    <?php if (isset($erreurs['general'])) : ?>
+        <div class="bien-suivi erreur"><?= htmlspecialchars((string) $erreurs['general'][0]) ?></div>
+    <?php endif; ?>
+
+    <div class="grille2">
+        <div class="champ">
+            <label for="nom">Nom</label>
+            <input type="text" name="nom" id="nom" value="<?= htmlspecialchars($valeur('nom')) ?>">
+            <?php if (isset($erreurs['nom'])) : ?>
+                <span class="erreur-champ"><?= htmlspecialchars((string) $erreurs['nom'][0]) ?></span>
+            <?php endif; ?>
+        </div>
+        <div class="champ">
+            <label for="batiment">Bâtiment</label>
+            <input type="text" name="batiment" id="batiment" value="<?= htmlspecialchars($valeur('batiment')) ?>">
+            <?php if (isset($erreurs['batiment'])) : ?>
+                <span class="erreur-champ"><?= htmlspecialchars((string) $erreurs['batiment'][0]) ?></span>
+            <?php endif; ?>
+        </div>
     </div>
 
-    <div class="champ">
-        <label for="batiment">Bâtiment</label>
-        <input type="text" id="batiment" name="batiment" value="<?= $e($valeur('batiment', '')) ?>" required>
-        <?php foreach ($erreurs['batiment'] ?? [] as $erreur): ?>
-            <span class="erreur-champ"><?= $e($erreur) ?></span>
-        <?php endforeach; ?>
+    <div class="grille2">
+        <div class="champ">
+            <label for="capacite">Capacité</label>
+            <input type="number" name="capacite" id="capacite" min="1" value="<?= htmlspecialchars($valeur('capacite')) ?>">
+            <?php if (isset($erreurs['capacite'])) : ?>
+                <span class="erreur-champ"><?= htmlspecialchars((string) $erreurs['capacite'][0]) ?></span>
+            <?php endif; ?>
+        </div>
+        <div class="champ">
+            <label for="type">Type</label>
+            <select name="type" id="type">
+                <?php foreach ($listeTypes as $clef => [$icone, $libelle]) : ?>
+                    <option value="<?= $clef ?>" <?= $valeur('type') === $clef ? 'selected' : '' ?>><?= $icone ?> <?= $libelle ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
     </div>
 
-    <div class="champ">
-        <label for="capacite">Capacité (places)</label>
-        <input type="number" id="capacite" name="capacite" min="1" max="1000"
-               value="<?= $e($valeur('capacite', '')) ?>" required>
-        <?php foreach ($erreurs['capacite'] ?? [] as $erreur): ?>
-            <span class="erreur-champ"><?= $e($erreur) ?></span>
-        <?php endforeach; ?>
-    </div>
-
-    <div class="champ">
-        <label for="type">Type</label>
-        <select id="type" name="type" required>
-            <option value="">— choisir —</option>
-            <?php foreach ($listeTypes as $type): ?>
-                <option value="<?= $e($type) ?>" <?= $typeActif === $type ? 'selected' : '' ?>>
-                    <?= $e($type) ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
-        <?php foreach ($erreurs['type'] ?? [] as $erreur): ?>
-            <span class="erreur-champ"><?= $e($erreur) ?></span>
-        <?php endforeach; ?>
-    </div>
-
-    <div class="champ aligner">
-        <label class="case" for="active">
-            <input type="checkbox" id="active" name="active"
-                   <?= (bool) $valeur('active', false) ? 'checked' : '' ?>>
-            Salle active (disponible à la réservation)
-        </label>
-        <?php foreach ($erreurs['active'] ?? [] as $erreur): ?>
-            <span class="erreur-champ"><?= $e($erreur) ?></span>
-        <?php endforeach; ?>
+    <div class="champ case">
+        <input type="checkbox" name="active" id="active" <?= $valeur('active') === '1' ? 'checked' : '' ?>>
+        <label for="active">Salle active (réservable)</label>
     </div>
 
     <div class="actions">
-        <button type="submit" class="bouton">Enregistrer</button>
+        <button class="bouton succes" type="submit">💾 Enregistrer</button>
         <a class="bouton secondaire" href="/salles">Annuler</a>
     </div>
 </form>

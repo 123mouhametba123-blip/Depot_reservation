@@ -18,4 +18,6 @@ interface SalleRepositoryInterface
     public function enregistrer(CreerSalleDTO $dto): Salle;
 
     public function mettreAJour(Salle $salle): Salle;
+
+    public function compter(): int;
 }

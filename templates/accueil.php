@@ -1,22 +1,32 @@
-<?php /** @var int $nbSalles @var int $nbReservations */ ?>
-<h1>Bienvenue</h1>
-<p>Application de gestion des réservations de salles universitaires.<br>
-   Consultez les salles, leurs disponibilités et gérez les réservations sans doublons.</p>
+<?php
+
+/**
+ * Page d'accueil (tableau de bord).
+ *
+ * @var int $nbSalles
+ * @var int $nbReservations
+ */
+?>
+<div class="hero">
+    <h1>Bienvenue sur votre espace de réservation de salles</h1>
+    <p>Ce tableau de bord vous permet de suivre en un coup d'œil l'activité de vos salles de cours.</p>
+    <div class="hero-actions">
+        <a class="bouton" href="/salles">Explorer les salles</a>
+        <a class="bouton secondaire" href="/reservations">Voir les réservations</a>
+    </div>
+</div>
 
 <div class="tableau-bord">
     <div class="carte">
-        <strong><?= $e($nbSalles) ?></strong>
-        <span>salles</span>
-        <a href="/salles">Voir</a>
+        <span>Réservations planifiées</span>
+        <strong><?= $nbReservations ?></strong>
+        <span>confirmées ou en attente</span>
+        <a href="/reservations">Gérer mes réservations</a>
     </div>
     <div class="carte">
-        <strong><?= $e($nbReservations) ?></strong>
-        <span>réservations</span>
-        <a href="/reservations">Voir</a>
-    </div>
-    <div class="carte">
-        <strong>+</strong>
-        <span>nouvelle réservation</span>
-        <a href="/reservations/create">Réserver</a>
+        <span>Salles enregistrées</span>
+        <strong><?= $nbSalles ?></strong>
+        <span>capacité totale et types disponibles</span>
+        <a href="/salles">Gérer les salles</a>
     </div>
 </div>

@@ -21,6 +21,7 @@ services:
 
   app:
     build: .
+    image: reservation-app:latest
     container_name: reservation_app
     restart: unless-stopped
     depends_on:

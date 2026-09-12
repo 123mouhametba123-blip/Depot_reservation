@@ -11,14 +11,7 @@ use App\Repository\SalleRepositoryInterface;
 use App\Validator\SalleValidator;
 use App\View\View;
 
-/**
- * Étape 9 — Contrôleur des salles.
- *
- * Le contrôleur ne réalise AUCUNE requête ORM : il s'appuie sur le
- * repository (accès aux données), le validateur (contrôle des entrées) et
- * la vue (rendu HTML). Il lit les données HTTP, mais jamais $_POST brut
- * n'est transmis aux services.
- */
+
 final class SalleController
 {
     public function __construct(

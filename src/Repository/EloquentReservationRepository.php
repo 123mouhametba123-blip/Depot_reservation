@@ -62,4 +62,9 @@ final class EloquentReservationRepository implements ReservationRepositoryInterf
 
         return $reservation;
     }
+
+    public function compter(): int
+    {
+        return Reservation::query()->count();
+    }
 }

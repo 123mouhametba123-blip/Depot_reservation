@@ -51,6 +51,11 @@ final class SalleRepositoryEnMemoire implements SalleRepositoryInterface
         return $salle;
     }
 
+    public function compter(): int
+    {
+        return count($this->salles);
+    }
+
     /** Aide de test : injecte directement une salle préconfigurée. */
     public function injecter(int $id, Salle $salle): void
     {

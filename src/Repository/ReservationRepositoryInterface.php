@@ -6,7 +6,6 @@ namespace App\Repository;
 
 use App\DTO\CreerReservationDTO;
 use App\Model\Reservation;
-use App\Model\Salle;
 
 
 interface ReservationRepositoryInterface
@@ -25,4 +24,6 @@ interface ReservationRepositoryInterface
     public function enregistrer(CreerReservationDTO $dto): Reservation;
 
     public function annuler(Reservation $reservation): Reservation;
+
+    public function compter(): int;
 }

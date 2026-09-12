@@ -67,6 +67,14 @@ final class Application
             throw new \RuntimeException("Action introuvable : {$classeControleur}::{$action}.");
         }
 
+        // FastRoute fournit les paramètres dynamiques sous forme de chaînes
+        // (ex. {"id":"1"}). Les actions sont typées int ; on convertit donc
+        // explicitement les valeurs numériques pour éviter tout TypeError.
+        $parametres = array_map(
+            static fn (mixed $valeur): mixed => is_numeric($valeur) ? (int) $valeur : $valeur,
+            $parametres,
+        );
+
         return (string) call_user_func_array([$controleur, $action], array_values($parametres));
     }
 }

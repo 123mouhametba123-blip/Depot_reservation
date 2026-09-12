@@ -8,12 +8,7 @@ use App\Repository\ReservationRepositoryInterface;
 use App\Repository\SalleRepositoryInterface;
 use App\View\View;
 
-/**
- * Contrôleur de la page d'accueil (route GET /).
- *
- * Affiche de simples compteurs via les repositories — aucune requête ORM
- * ne transparaît ici.
- */
+
 final class AccueilController
 {
     public function __construct(
@@ -26,9 +21,9 @@ final class AccueilController
     public function index(): string
     {
         return $this->vue->rendu('accueil.php', [
-            'titre'         => 'Bienvenue',
-            'nbSalles'      => count($this->salles->lister()),
-            'nbReservations'=> count($this->reservations->lister()),
+            'titre'          => 'Bienvenue',
+            'nbSalles'       => $this->salles->compter(),
+            'nbReservations' => $this->reservations->compter(),
         ]);
     }
 }
