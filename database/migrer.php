@@ -20,7 +20,7 @@ $repertoire = dirname(__DIR__) . '/database/migrations';
 $fichiers = glob($repertoire . '/*.php') ?: [];
 sort($fichiers);
 
-$pilote = DB_CONNECTION ?? Capsule::connection()->getDriverName();
+$pilote = Capsule::connection()->getDriverName();
 
 if ($pilote === 'mysql') {
     Capsule::statement('SET FOREIGN_KEY_CHECKS = 0');

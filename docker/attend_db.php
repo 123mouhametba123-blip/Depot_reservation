@@ -5,15 +5,15 @@ declare(strict_types=1);
 /**
  * Vérifie que la base accepte les connexions (utilisé par l'entrypoint).
  *
- * Usage : php attend_db.php PILOTE HOST PORT USER PASSWORD
+ * Usage : php attend_db.php PILOTE HOST PORT BASE USER PASSWORD
  * Code de sortie : 0 = prêt, 1 = pas encore joignable.
  */
 
-[$pilote, $hote, $port, $utilisateur, $motDePasse] = array_pad(array_slice($argv, 1), 5, null);
+[$pilote, $hote, $port, $base, $utilisateur, $motDePasse] = array_pad(array_slice($argv, 1), 6, null);
 
 try {
     $dsn = $pilote === 'pgsql'
-        ? "pgsql:host={$hote};port={$port}"
+        ? "pgsql:host={$hote};port={$port};dbname={$base}"
         : "mysql:host={$hote};port={$port};charset=utf8mb4";
 
     new PDO(
