@@ -3,7 +3,7 @@ set -e
 
 echo "Attente de MySQL (${DB_HOST}:${DB_PORT})..."
 
-until php /usr/local/bin/attend_db.php "$DB_HOST" "$DB_PORT" "$DB_USERNAME" "$DB_PASSWORD" >/dev/null 2>&1; do
+until php /usr/local/bin/attend_db.php "$DB_DRIVER" "$DB_HOST" "$DB_PORT" "$DB_USERNAME" "$DB_PASSWORD" >/dev/null 2>&1; do
     sleep 2
 done
 

@@ -34,8 +34,8 @@ return static function (): Capsule {
         'driver'    => $pilote,
         'database'  => $lire('DB_DATABASE') ?? 'reservation_salles',
         'prefix'    => $lire('DB_PREFIX') ?? '',
-        'charset'   => 'utf8mb4',
-        'collation' => 'utf8mb4_unicode_ci',
+        'charset'   => $pilote === 'pgsql' ? 'utf8' : 'utf8mb4',
+        'collation' => $pilote === 'pgsql' ? 'utf8' : 'utf8mb4_unicode_ci',
         'strict'    => true,
     ];
 

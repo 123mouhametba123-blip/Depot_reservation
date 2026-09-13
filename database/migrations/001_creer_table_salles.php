@@ -22,7 +22,7 @@ return static function (): void {
         $table->string('nom', 100);
         $table->string('batiment', 100);
         $table->unsignedInteger('capacite');
-        $table->enum('type', ['cours', 'informatique', 'laboratoire', 'amphitheatre', 'reunion']);
+        $table->string('type', 30);
         $table->boolean('active')->default(true);
         $table->timestamps();
     });

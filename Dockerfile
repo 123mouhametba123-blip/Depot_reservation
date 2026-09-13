@@ -4,10 +4,11 @@ FROM php:8.3-cli
 RUN apt-get update && apt-get install -y --no-install-recommends \
         libonig-dev \
         libxml2-dev \
+        libpq-dev \
         unzip \
     && rm -rf /var/lib/apt/lists/*
 
-RUN docker-php-ext-install pdo pdo_mysql mbstring
+RUN docker-php-ext-install pdo pdo_mysql mbstring pgsql pdo_pgsql
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
@@ -23,7 +24,7 @@ COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY docker/attend_db.php /usr/local/bin/attend_db.php
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-EXPOSE 80
+EXPOSE ${PORT:-80}
 
 ENTRYPOINT ["entrypoint.sh"]
-CMD ["php", "-S", "0.0.0.0:80", "-t", "public", "public/index.php"]
+CMD ["sh", "-c", "php -S 0.0.0.0:${PORT:-80} -t public public/index.php"]

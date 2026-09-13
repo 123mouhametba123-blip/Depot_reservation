@@ -26,7 +26,7 @@ return static function (): void {
         $table->string('motif', 255);
         $table->dateTime('date_debut');
         $table->dateTime('date_fin');
-        $table->enum('statut', ['confirmee', 'annulee'])->default('confirmee');
+        $table->string('statut', 20)->default('confirmee');
         $table->timestamps();
 
         $table->foreign('salle_id')->references('id')->on('salles')->onDelete('cascade');

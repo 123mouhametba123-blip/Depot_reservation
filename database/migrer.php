@@ -20,9 +20,11 @@ $repertoire = dirname(__DIR__) . '/database/migrations';
 $fichiers = glob($repertoire . '/*.php') ?: [];
 sort($fichiers);
 
-// Les migrations sont rejouables (drop + create) : on désactive temporairement
-// les clés étrangères pour pouvoir dropper une table référencée par une autre.
-Capsule::statement('SET FOREIGN_KEY_CHECKS = 0');
+$pilote = DB_CONNECTION ?? Capsule::connection()->getDriverName();
+
+if ($pilote === 'mysql') {
+    Capsule::statement('SET FOREIGN_KEY_CHECKS = 0');
+}
 
 foreach ($fichiers as $fichier) {
     $basename = basename($fichier);
@@ -36,7 +38,9 @@ foreach ($fichiers as $fichier) {
     echo "Migration appliquée : {$basename}\n";
 }
 
-Capsule::statement('SET FOREIGN_KEY_CHECKS = 1');
+if ($pilote === 'mysql') {
+    Capsule::statement('SET FOREIGN_KEY_CHECKS = 1');
+}
 
 $base = $_ENV['DB_DATABASE'] ?? $_SERVER['DB_DATABASE'] ?? 'reservation_salles';
 echo "Schéma de la base '{$base}' à jour.\n";
