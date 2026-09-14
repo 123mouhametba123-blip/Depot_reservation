@@ -20,17 +20,9 @@ $repertoire = dirname(__DIR__) . '/database/migrations';
 $fichiers = glob($repertoire . '/*.php') ?: [];
 sort($fichiers);
 
-$pilote = Capsule::connection()->getDriverName();
-
-// Suppression préalable des tables dépendantes (PostgreSQL refuse un DROP
-// tant qu'une clé étrangère référence la table ; MySQL s'en charge via
-// SET FOREIGN_KEY_CHECKS). Tables classées en ordre inverse de dépendance.
-if ($pilote === 'pgsql') {
-    Capsule::statement('DROP TABLE IF EXISTS "reservations" CASCADE');
-    Capsule::statement('DROP TABLE IF EXISTS "salles" CASCADE');
-} else {
-    Capsule::statement('SET FOREIGN_KEY_CHECKS = 0');
-}
+// Les migrations sont rejouables (drop + create) : on désactive temporairement
+// les clés étrangères pour pouvoir dropper une table référencée par une autre.
+Capsule::statement('SET FOREIGN_KEY_CHECKS = 0');
 
 foreach ($fichiers as $fichier) {
     $basename = basename($fichier);
@@ -44,9 +36,7 @@ foreach ($fichiers as $fichier) {
     echo "Migration appliquée : {$basename}\n";
 }
 
-if ($pilote !== 'pgsql') {
-    Capsule::statement('SET FOREIGN_KEY_CHECKS = 1');
-}
+Capsule::statement('SET FOREIGN_KEY_CHECKS = 1');
 
 $base = $_ENV['DB_DATABASE'] ?? $_SERVER['DB_DATABASE'] ?? 'reservation_salles';
 echo "Schéma de la base '{$base}' à jour.\n";

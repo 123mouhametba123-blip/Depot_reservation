@@ -11,30 +11,17 @@ services:
       - key: APP_DEBUG
         value: "false"
       - key: DB_DRIVER
-        value: pgsql
-      - key: DB_HOST
-        fromDatabase:
-          name: reservation-db
-          property: host
-      - key: DB_PORT
-        fromDatabase:
-          name: reservation-db
-          property: port
-      - key: DB_DATABASE
-        fromDatabase:
-          name: reservation-db
-          property: database
-      - key: DB_USERNAME
-        fromDatabase:
-          name: reservation-db
-          property: user
-      - key: DB_PASSWORD
-        fromDatabase:
-          name: reservation-db
-          property: password
-
-databases:
-  - name: reservation-db
-    databaseName: reservation_salles
-    user: reservation_user
-    plan: free
+        value: mysql
+      # Render ne fournit pas de MySQL managé : remplissez ces variables dans
+      # le dashboard (Environment) avec les identifiants d'une base MySQL
+      # externe (ex. Clever Cloud, Aiven, DigitalOcean...).
+      # - key: DB_HOST
+      #   sync: false
+      # - key: DB_PORT
+      #   sync: false
+      # - key: DB_DATABASE
+      #   sync: false
+      # - key: DB_USERNAME
+      #   sync: false
+      # - key: DB_PASSWORD
+      #   sync: false

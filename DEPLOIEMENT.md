@@ -1,5 +1,12 @@
 # Déploiement sur Render — Explication complète
 
+> **À jour (retour à MySQL) :** l'application utilise désormais **MySQL partout**.
+> Render ne proposant pas de MySQL managé, la base PostgreSQL a été retirée du
+> blueprint (`render.yaml`) : sur Render, renseignez dans le dashboard
+> (Environment) les variables `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`
+> et `DB_PASSWORD` d'une base MySQL externe. Le reste de ce document retrace
+> l'historique du déploiement initial (PostgreSQL).
+
 Document rédigé après le déploiement réussi de l'application sur Render
 (commit `c842bea`, application en ligne sur https://depot-reservation.onrender.com).
 
