@@ -22,7 +22,13 @@ sort($fichiers);
 
 $pilote = Capsule::connection()->getDriverName();
 
-if ($pilote === 'mysql') {
+// Suppression préalable des tables dépendantes (PostgreSQL refuse un DROP
+// tant qu'une clé étrangère référence la table ; MySQL s'en charge via
+// SET FOREIGN_KEY_CHECKS). Tables classées en ordre inverse de dépendance.
+if ($pilote === 'pgsql') {
+    Capsule::statement('DROP TABLE IF EXISTS "reservations" CASCADE');
+    Capsule::statement('DROP TABLE IF EXISTS "salles" CASCADE');
+} else {
     Capsule::statement('SET FOREIGN_KEY_CHECKS = 0');
 }
 
@@ -38,7 +44,7 @@ foreach ($fichiers as $fichier) {
     echo "Migration appliquée : {$basename}\n";
 }
 
-if ($pilote === 'mysql') {
+if ($pilote !== 'pgsql') {
     Capsule::statement('SET FOREIGN_KEY_CHECKS = 1');
 }
 
