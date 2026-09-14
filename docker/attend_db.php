@@ -11,15 +11,24 @@ declare(strict_types=1);
 
 [$hote, $port, $utilisateur, $motDePasse] = array_pad(array_slice($argv, 1), 4, null);
 
+$options = [
+    PDO::ATTR_TIMEOUT => 2,
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+];
+
+// Même logique TLS que config/database.php (TiDB impose SSL).
+$ssl = getenv('DB_SSL');
+if (in_array($ssl, ['1', 'true', 'yes', 'on'], true)) {
+    $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = false;
+    $options[PDO::MYSQL_ATTR_SSL_CA] = getenv('DB_SSL_CA') ?: '/etc/ssl/certs/ca-certificates.crt';
+}
+
 try {
     new PDO(
         "mysql:host={$hote};port={$port};charset=utf8mb4",
         $utilisateur ?? 'root',
         $motDePasse ?? '',
-        [
-            PDO::ATTR_TIMEOUT => 2,
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        ],
+        $options,
     );
 
     exit(0);

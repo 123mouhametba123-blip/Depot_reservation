@@ -44,6 +44,15 @@ return static function (): Capsule {
         $configuration['port']     = $lire('DB_PORT') ?? '3306';
         $configuration['username'] = $lire('DB_USERNAME') ?? 'root';
         $configuration['password'] = $lire('DB_PASSWORD') ?? '';
+
+        // TiDB (et certains hébergeurs) imposent une connexion TLS :
+        // on active SSL avec vérification du certificat désactivée dès que
+        // DB_SSL=true (pratique pour un projet sans certificat CA fourni).
+        $ssl = $lire('DB_SSL');
+        if (in_array($ssl, ['1', 'true', 'yes', 'on'], true)) {
+            $configuration['options'][PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = false;
+            $configuration['options'][PDO::MYSQL_ATTR_SSL_CA] = $lire('DB_SSL_CA') ?: '/etc/ssl/certs/ca-certificates.crt';
+        }
     }
 
     $capsule = new Capsule();
